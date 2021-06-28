@@ -6,4 +6,4 @@ Small program to monitor flashforge printers video feed and status info (temp, p
 Tested with:
 - Flashforge Adventurer 3
 
-(still super buggy)
+(still super buggy, but works)
