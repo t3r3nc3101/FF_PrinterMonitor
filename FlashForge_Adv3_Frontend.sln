@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31105.61
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "FlashForge_Adv3_Frontend", "FlashForge_Adv3_Frontend\FlashForge_Adv3_Frontend.vbproj", "{49155E7D-34BE-4706-9349-9267CDA6DE31}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49155E7D-34BE-4706-9349-9267CDA6DE31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49155E7D-34BE-4706-9349-9267CDA6DE31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49155E7D-34BE-4706-9349-9267CDA6DE31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49155E7D-34BE-4706-9349-9267CDA6DE31}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BE2970B3-E506-4278-911F-EE5890644E1C}
+	EndGlobalSection
+EndGlobal
