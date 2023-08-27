@@ -1,101 +1,35 @@
 ﻿Imports System.Net.Sockets
 Imports System.Text
+Imports System.Text.RegularExpressions
+Imports System.Windows.Threading
 Imports System.Diagnostics
 
-Imports System.Runtime.InteropServices
-Imports System.Windows.Threading
-
 Class MainWindow
-
-    Dim printerIP = "192.168.1.3" ''  is set at launch / when the ip textbox has changed   -- OR BY UI EDITOR IF NEEDED
-
-    Private Sub Grid_Loaded(sender As Object, e As RoutedEventArgs)
-
-        'System.Threading.Thread.Sleep(1500)
-
-        Connect(printerIP, "~M601 S1")
-        label.Content = responseData + label.Content
-
-        'Debug.WriteLine()
-        'if here
-        NewTimerPls()   ' < was on!!! t333
-
-        webView11.Source = New Uri("http://" + printerIP + ":8080/?action=stream")
-
-
-    End Sub
-
-
-
-
-    '          ////////////////////////////////////////////////////////
-
+    Private printerIP As String = "192.168.1.32"
+    Private responseData As String = String.Empty
+    Private connectedSuccessfully As Boolean = False
     Private dpTimer As DispatcherTimer
 
-    Public Sub NewTimerPls()
+    Private Sub Grid_Loaded(sender As Object, e As RoutedEventArgs)
+        NewTimerPls()
+    End Sub
+
+    Private Sub NewTimerPls()
         dpTimer = New DispatcherTimer
-        TickMe()
-        dpTimer.Interval = TimeSpan.FromMilliseconds(10000) '5000
+        dpTimer.Interval = TimeSpan.FromMilliseconds(10000)
         AddHandler dpTimer.Tick, AddressOf TickMe
         dpTimer.Start()
     End Sub
 
     Private Sub TickMe()
-
-        If connectedSuccessfully = True Then   ' < CHECK FOR CONNECTION FIRST
-
-            webView11.Source = New Uri("http://" + printerIP + ":8080/?action=stream")
+        If connectedSuccessfully Then
             System.Threading.Thread.Sleep(500)    ' <<<< DELAY NEEDED SO PRINTER DOESNT FREAK OUT
-            Dim currentJobPercent = getJobPercent()
+            RefreshPrinterData()
             System.Threading.Thread.Sleep(500)    ' <<<< DELAY NEEDED SO PRINTER DOESNT FREAK OUT
-            Dim currentNozzleTemp = getTemp()
-
-            jobProgressBar.Value = currentJobPercent
-            jobPercentText.Content = currentJobPercent.ToString() + "%"
-
-            nozzleTempText.Content = currentNozzleTemp.ToString()
+            DisplayCameraFeed()
+            System.Threading.Thread.Sleep(500)    ' <<<< DELAY NEEDED SO PRINTER DOESNT FREAK OUT
         End If
-
-
     End Sub
-
-
-    '          //////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-    Public Async Sub asyncRefresh()
-        ' loading_LABEL.Visibility = Visibility.Visible
-        Dim task As Task = Task.Run(Function() refreshPrinterData())
-        Await task
-        ' do somthin when done waiting
-        'loading_LABEL.Visibility = Visibility.Collapsed
-
-        'asyncRefresh()
-        label.Content = responseData + label.Content
-        'Debug.WriteLine(responseData)
-
-        asyncRefresh()
-
-    End Sub
-
-    Function refreshPrinterData()
-        Connect(printerIP, "~M114")
-        'System.Threading.Thread.Sleep(2000)
-    End Function
-
-    Dim percentAsInt = 0
-
-    '   Private Sub button_Copy_Click(sender As Object, e As RoutedEventArgs) Handles button_Copy.Click  ''  << HEAD POS
-    '       Connect(printerIP, "~M114")
-    '   'Debug.WriteLine(responseData)
-    '   End Sub
-
-
 
     Function getJobPercent()
         '' GET AND FORMAT PERCENT ''
@@ -113,101 +47,81 @@ Class MainWindow
 
         Return percentAsInt
     End Function
-    Function getTemp()
-        '' GET AND FORMAT TEMPS & LIMITS ''
-        Connect(printerIP, "~M105")
 
-        Dim b4str As String
-        Dim b4x
-        b4str = responseData.ToString()
-        b4x = InStr(b4str, ".")
-
-        Dim b4cleaned = Strings.Right(b4str, b4x - 1)
-
-        Dim str As String
-        Dim x
-        str = b4cleaned
-        x = InStr(str, " ")
-        Dim cleaned = Strings.Left(str, x - 1)
-
-        'Debug.WriteLine(str)
-        'Dim cleaned = code.Remove(1, code.Length - 1)
-        'Dim cleaned = extractedPercentString.Replace("/", "")
-        Debug.WriteLine(b4str)
-        Dim tempAsInt = Convert.ToInt32(cleaned)
-        Return tempAsInt
-    End Function
-
-
-
-
-    ' String to store the response ASCII representation.
-    Dim responseData As [String] = [String].Empty
-
-    Dim connectedSuccessfully = False
-
-    Sub Connect(server As [String], message As [String])
-        ' Create a TcpClient.
-        ' Note, for this client to work you need to have a TcpServer 
-        ' connected to the same address as specified by the server, port
-        ' combination.
-        Dim port As Int32 = 8899    ' 13000
-        'Debug.WriteLine(server)
-
-
-        Dim client As TcpClient
-        Try
-            client = New TcpClient(server, port)   '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-            connectedSuccessfully = True
-
-        Catch
-            connectedSuccessfully = False
-
-        Catch e As ArgumentNullException
-            Debug.WriteLine("ArgumentNullException: {0}", e)
-        Catch e As SocketException
-            Debug.WriteLine("SocketException: {0}", e)
-
-        Finally
-
-            If connectedSuccessfully = True Then
-
-                '   NewTimerPls()   ' <<<< no
-
-                ' Translate the passed message into ASCII and store it as a Byte array.
-                Dim data As [Byte]() = System.Text.Encoding.ASCII.GetBytes(message)
-
-            ' Get a client stream for reading and writing.
-            '  Stream stream = client.GetStream();
-            Dim stream As NetworkStream = client.GetStream()
-
-            ' Send the message to the connected TcpServer. 
-            stream.Write(data, 0, data.Length)
-
-            'Console.WriteLine("Sent: {0}", message)
-
-            ' Receive the TcpServer.response.
-            ' Buffer to store the response bytes.
-            data = New [Byte](256) {}
-
-            ' Read the first batch of the TcpServer response bytes.
-            Dim bytes As Int32 = stream.Read(data, 0, data.Length)
-            responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes)
-
-            ' Close everything.
-            stream.Close()
-            client.Close()
-
-        End If
-        End Try
-
-
+    Private Sub DisplayCameraFeed()
+        Dim cameraFeedUrl = $"http://{printerIP}:8080/?action=stream"
+        webView11.Source = New Uri(cameraFeedUrl)
     End Sub
 
+    Private Sub RefreshPrinterData()
+        responseData = String.Empty
+
+        Connect(printerIP, "~M105")
+        Dim tempInfo = ExtractTempInfo(responseData)
+        Dim nozzleValues = tempInfo("nozzle")
+        Dim bedValues = tempInfo("bed")
+
+        Dim nozzleTemp = nozzleValues.Item1
+        Dim nozzleMaxTemp = nozzleValues.Item2
+        Dim bedTemp = bedValues.Item1
+        Dim bedMaxTemp = bedValues.Item2
+
+        nozzleTempText.Content = $"{nozzleTemp}"
+        nozzleTempMAXText.Content = $"/{nozzleMaxTemp}"
+
+        bedTempText.Content = $"{bedTemp}"
+        bedTempMAXText.Content = $"/{bedMaxTemp}"
+
+        Dim currentJobPercent = getJobPercent()
+
+        jobProgressBar.Value = currentJobPercent
+        jobPercentText.Content = currentJobPercent.ToString() + "%"
 
 
-    Private Sub textBox1_TextInput(sender As Object, e As TextCompositionEventArgs) Handles textBox1.TextInput
-        printerIP = textBox1.Text
+        Debug.WriteLine($"Nozzle Temp: {nozzleTemp} / {nozzleMaxTemp}")
+        Debug.WriteLine($"Bed Temp: {bedTemp} / {bedMaxTemp}")
+
+        lastUpdatedLabel.Content = "Last Updated: " & DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+    End Sub
+
+    Private Function ExtractTempInfo(data As String) As Dictionary(Of String, Tuple(Of Integer, Integer))
+        Dim tempInfo As New Dictionary(Of String, Tuple(Of Integer, Integer))()
+
+        Dim match = Regex.Match(data, "T0:(\d+)/(\d+) B:(\d+)/(\d+)")
+        If match.Success Then
+            tempInfo("nozzle") = New Tuple(Of Integer, Integer)(Integer.Parse(match.Groups(1).Value), Integer.Parse(match.Groups(2).Value))
+            tempInfo("bed") = New Tuple(Of Integer, Integer)(Integer.Parse(match.Groups(3).Value), Integer.Parse(match.Groups(4).Value))
+        End If
+
+        Return tempInfo
+    End Function
+
+    Private Sub Connect(server As String, message As String)
+        Dim port As Integer = 8899
+        Dim client As TcpClient
+
+        Try
+            client = New TcpClient(server, port)
+            connectedSuccessfully = True
+            connectionStatusLabel.Content = "CONNECTED"
+        Catch
+            connectedSuccessfully = False
+            connectionStatusLabel.Content = "DISCONNECTED"
+        End Try
+
+        If connectedSuccessfully Then
+            Dim data As Byte() = Encoding.ASCII.GetBytes(message)
+            Dim stream As NetworkStream = client.GetStream()
+
+            stream.Write(data, 0, data.Length)
+
+            Dim responseDataBytes As Byte() = New Byte(256) {}
+            Dim bytesRead As Integer = stream.Read(responseDataBytes, 0, responseDataBytes.Length)
+            responseData = Encoding.ASCII.GetString(responseDataBytes, 0, bytesRead)
+
+            stream.Close()
+            client.Close()
+        End If
     End Sub
 
     Private Sub textBox1_TextChanged(sender As Object, e As TextChangedEventArgs) Handles textBox1.TextChanged
@@ -216,11 +130,24 @@ Class MainWindow
 
     Private Sub button_Click(sender As Object, e As RoutedEventArgs) Handles button.Click
         Connect(printerIP, "~M601 S1")
+        RefreshPrinterData()
     End Sub
 
 
 
+
+    Public Sub New()
+        InitializeComponent()
+        AddHandler Me.Loaded, AddressOf MainWindow_Loaded
+    End Sub
+
+    Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs)
+        NewTimerPls()
+        Connect(printerIP, "~M601 S1") ' Call the Connect function
+        RefreshPrinterData()           ' Call the RefreshPrinterData function
+    End Sub
+
+
+
+
 End Class
-
-
-

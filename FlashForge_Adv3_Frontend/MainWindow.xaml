@@ -6,23 +6,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlashForge_Adv3_Frontend"
         mc:Ignorable="d"
-        Title="Flashforge© Printer Monitor v0.1" Height="584" Width="1119" Background="#FF323232" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+        Title="T3 Printer Monitor" Height="584" Width="1119" Background="#FF323232" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
 
 
     <Canvas Loaded="Grid_Loaded" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
+        <Label x:Name="lastUpdatedLabel" Content="Last Updated: " HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="14" Canvas.Top="509" Width="386" Foreground="#FFA7A7A7" FontSize="14"/>
+
+
         <Border Background="Black" Padding="50,50,50,50" Opacity="0.8" Height="525" Canvas.Left="420" Width="670" Canvas.Top="10">
-            <wv2:WebView2 x:Name="webView11" Source="http://192.168.1.3:8080/?action=stream" Focusable="False" IsHitTestVisible="False" Panel.ZIndex="-2" ScrollViewer.HorizontalScrollBarVisibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" Width="640" Height="480" MaxWidth="640" MaxHeight="480"/>
+            <wv2:WebView2 x:Name="webView11" Source="http://192.168.1.32:8080/?action=stream" Focusable="False" IsHitTestVisible="False" Panel.ZIndex="-2" ScrollViewer.HorizontalScrollBarVisibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Top" Width="652" Height="522" MaxWidth="640" MaxHeight="480" Margin="0,-28,0,0"/>
         </Border>
 
         <Border Width="395" Height="128" Canvas.Left="10" Canvas.Top="409" >
-            <Label x:Name="label" Content="" Foreground="#FFDAD67D" Background="#FF212121" BorderThickness="2,2,2,2" Margin="0,-10,0,0" FontSize="18" FontFamily="Perpetua" FontWeight="Normal" FontStyle="Italic"/>
+            <Label x:Name="label" Content="" Foreground="#FFDAD67D" Background="#FF212121" BorderThickness="2,2,2,2" Margin="0,-10,0,40" FontSize="18" FontFamily="Perpetua" FontWeight="Normal" FontStyle="Italic"/>
         </Border>
-        <TextBox x:Name="textBox1" Canvas.Top="84" Text="192.168.1.3" TextWrapping="Wrap" Width="165" Height="34" FontSize="22" Panel.ZIndex="1" Canvas.Left="25" Background="#FF151515" Foreground="#FFC9C9C9"/>
+        <TextBox x:Name="textBox1" Canvas.Top="84" Text="192.168.1.32" TextWrapping="Wrap" Width="165" Height="34" FontSize="22" Panel.ZIndex="1" Canvas.Left="25" Background="#FF151515" Foreground="#FFC9C9C9"/>
         <Grid Height="105" Canvas.Left="10" Canvas.Top="284" Width="395" Background="#FF212121">
             <Label x:Name="jobPercentText" Content="100%" Foreground="#FFF7F7F7" FontSize="15" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" RenderTransformOrigin="0.519,0.064" Padding="0,0,0,0" Margin="0,64,0,15"/>
             <ProgressBar x:Name="jobProgressBar" Orientation="Horizontal" Value="45" Panel.ZIndex="-5" Background="#FF212121" Margin="10,65,10,15"/>
-            <Label x:Name="label2_Copy3" Content="JOB STATUS" Foreground="White" FontSize="19" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontWeight="Bold" Margin="5,0,142,69"/>
+            <Label x:Name="label2_Copy3" Content="CURRENT JOB STATUS" Foreground="SteelBlue" FontSize="19" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontWeight="Bold" Margin="5,0,142,69"/>
             <Label x:Name="statusText_label" Content="[ unknown status ]" Foreground="#FFC5C5C5" FontSize="14" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontWeight="Bold" Margin="0,28,10,41" HorizontalAlignment="Right"/>
 
         </Grid>
@@ -35,27 +38,19 @@
         </Grid>
 
         <Grid Height="126" Canvas.Left="10" Canvas.Top="146" Width="395" Background="#FF212121">
-            <Label x:Name="label2_Copy2" Content=" / 999" Foreground="#FFC5C5C5" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="0,89,245,0" HorizontalAlignment="Right" Width="90"/>
-            <Label x:Name="nozzleTempText" Content="999" Foreground="White" FontSize="40" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="0,37,310,0"/>
-            <Label x:Name="label2_Copy4" Content="Nozzle:" Foreground="#FFC5C5C5" FontSize="16" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontWeight="Bold" Margin="5,29,281,61"/>
-            <Label x:Name="label2_Copy5" Content=" / 99" Foreground="#FFC5C5C5" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="170,89,0,0"/>
-            <Label x:Name="label2_Copy6" Content="99" Foreground="White" FontSize="40" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="198,37,125,0"/>
-            <Label x:Name="label2_Copy7" Content="Bed:" Foreground="#FFC5C5C5" FontSize="16" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontWeight="Bold" Margin="190,29,46,61"/>
-            <Label x:Name="label2_Copy8" Content="TEMPERATURE" Foreground="White" FontSize="19" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontWeight="Bold" Margin="5,0,142,90"/>
-            <Border HorizontalAlignment="Left" Height="61" Margin="315,7,0,0" VerticalAlignment="Top" Width="70" >
-                <Image x:Name="image" Source="/warningOutline.png" Opacity="0.75"/>
-            </Border>
-            <Border HorizontalAlignment="Left" Height="61" Margin="315,7,0,0" VerticalAlignment="Top" Width="70" Background="Lime" Opacity="0.5" >
-                <Border.OpacityMask>
-                    <ImageBrush ImageSource="/warningGlow.png"/>
-                </Border.OpacityMask>
-                <Image x:Name="glowImage" Source="/warningOutline.png"/>
-            </Border>
+            <Label x:Name="nozzleTempMAXText" Content=" / 999" Foreground="#FFC5C5C5" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="0,89,204,0" HorizontalAlignment="Right" Width="90"/>
+            <Label x:Name="nozzleTempText" Content="999" Foreground="White" FontSize="40" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="41,37,269,0"/>
+            <Label x:Name="label2_Copy4" Content="Nozzle:" Foreground="#FFC5C5C5" FontSize="16" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontWeight="Bold" Margin="46,29,240,61"/>
+            <Label x:Name="bedTempMAXText" Content=" / 99" Foreground="#FFC5C5C5" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="211,89,-41,0"/>
+            <Label x:Name="bedTempText" Content="99" Foreground="White" FontSize="40" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="239,37,84,0"/>
+            <Label x:Name="label2_Copy7" Content="Bed:" Foreground="#FFC5C5C5" FontSize="16" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontWeight="Bold" Margin="231,29,5,61"/>
+            <Label x:Name="label2_Copy8" Content="TEMPERATURES" Foreground="SteelBlue" FontSize="19" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontWeight="Bold" Margin="5,0,142,90"/>
+            <Border HorizontalAlignment="Left" Height="61" Margin="315,7,0,0" VerticalAlignment="Top" Width="70" />
 
         </Grid>
-        <Button x:Name="button" Content="Button" Canvas.Left="305" Canvas.Top="18" Height="35" Width="95"/>
-        <Label x:Name="label2_Copy1" Content="CONNECTION" Foreground="White" FontSize="19" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontWeight="Bold" Height="37" Canvas.Left="14" Width="248" Canvas.Top="10"/>
-        <Label x:Name="label2_Copy9" Content="CONNECTION" Foreground="White" FontSize="19" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Height="34" Canvas.Left="237" Width="133" Canvas.Top="84" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0,0,0,0"/>
+        <Button x:Name="button" Content="RE/CONNECT" Canvas.Left="280" Canvas.Top="18" Height="23" Width="120" Background="#FF535353" Foreground="Gainsboro" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14"/>
+        <Label x:Name="label2_Copy1" Content="CONNECTION" Foreground="SteelBlue" FontSize="19" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontWeight="Bold" Height="37" Canvas.Left="14" Width="248" Canvas.Top="10"/>
+        <Label x:Name="connectionStatusLabel" Content="CONNECTING" Foreground="Gray" FontSize="19" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Height="34" Canvas.Left="237" Width="133" Canvas.Top="84" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0,0,0,0"/>
 
     </Canvas>
 

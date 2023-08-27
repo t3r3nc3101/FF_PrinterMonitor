@@ -1,0 +1,76 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\T3\\Downloads\\FF_PrinterMonitor-main\\FlashForge_Adv3_Frontend\\FlashForge_Adv3_Frontend.vbproj": {}
+  },
+  "projects": {
+    "C:\\Users\\T3\\Downloads\\FF_PrinterMonitor-main\\FlashForge_Adv3_Frontend\\FlashForge_Adv3_Frontend.vbproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\T3\\Downloads\\FF_PrinterMonitor-main\\FlashForge_Adv3_Frontend\\FlashForge_Adv3_Frontend.vbproj",
+        "projectName": "FlashForge_Adv3_Frontend",
+        "projectPath": "C:\\Users\\T3\\Downloads\\FF_PrinterMonitor-main\\FlashForge_Adv3_Frontend\\FlashForge_Adv3_Frontend.vbproj",
+        "packagesPath": "C:\\Users\\T3\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\T3\\Downloads\\FF_PrinterMonitor-main\\FlashForge_Adv3_Frontend\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\T3\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0-windows"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0-windows7.0": {
+            "targetAlias": "net5.0-windows",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0-windows7.0": {
+          "targetAlias": "net5.0-windows",
+          "dependencies": {
+            "Microsoft.Web.WebView2": {
+              "target": "Package",
+              "version": "[1.0.818.41, )"
+            },
+            "System.Net.Sockets": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

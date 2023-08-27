@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "dgSpecHash": "brQUq7EyrEwAG/yuV7QeOXdCuP27cjB1C7BE4Ig2ZFr3rXviuxQubT/gXIlM30DkHetqrePjCyaDyHXVSHrhhw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\T3\\Downloads\\FF_PrinterMonitor-main\\FlashForge_Adv3_Frontend\\FlashForge_Adv3_Frontend.vbproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\T3\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\T3\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
+    "C:\\Users\\T3\\.nuget\\packages\\microsoft.web.webview2\\1.0.818.41\\microsoft.web.webview2.1.0.818.41.nupkg.sha512",
+    "C:\\Users\\T3\\.nuget\\packages\\system.io\\4.3.0\\system.io.4.3.0.nupkg.sha512",
+    "C:\\Users\\T3\\.nuget\\packages\\system.net.primitives\\4.3.0\\system.net.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\T3\\.nuget\\packages\\system.net.sockets\\4.3.0\\system.net.sockets.4.3.0.nupkg.sha512",
+    "C:\\Users\\T3\\.nuget\\packages\\system.runtime\\4.3.0\\system.runtime.4.3.0.nupkg.sha512",
+    "C:\\Users\\T3\\.nuget\\packages\\system.runtime.handles\\4.3.0\\system.runtime.handles.4.3.0.nupkg.sha512",
+    "C:\\Users\\T3\\.nuget\\packages\\system.text.encoding\\4.3.0\\system.text.encoding.4.3.0.nupkg.sha512",
+    "C:\\Users\\T3\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512"
+  ],
+  "logs": []
+}
